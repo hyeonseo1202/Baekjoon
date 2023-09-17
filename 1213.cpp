@@ -22,7 +22,7 @@ int main()
 	for (int i = 0; i < 26; i++)
 	{
 		if (arr[i])
-			type++;
+			type+=arr[i];
 	}
 	int flag = 0;
 	for (int i = 0; i < 26; i++)
@@ -42,11 +42,10 @@ int main()
 			flag++;
 		}
 	}
-	flag = 0;
 	for (int i = 0; i < 26; i++)
 	{
 		if (arr[i] % 2 == 1)
-			flag = i + 65;
+			flag = i + 'A';
 		if (arr[i])
 		{
 			char c = i + 65;
@@ -56,7 +55,7 @@ int main()
 			}
 		}
 	}
-	if (flag) 
+	if (flag >= 'A') 
 	{
 		char c = flag;
 		cout << c;
