@@ -22,7 +22,7 @@ def shortest_path_binary_matrix(grid):
             x = cur_x + dx[i]
             y = cur_y + dy[i]
             if x >= 0 and y >= 0 and x < n and y < n:
-                if not visited[x][y] and grid[x][y]:
+                if not visited[x][y] and grid[x][y] == 0:
                     
                     visited[x][y] = True
                     q.append((x,y, cur_d+1))
