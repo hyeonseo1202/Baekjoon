@@ -16,7 +16,7 @@ def shortest_path_binary_matrix(grid):
     visited[0][0] = 1
     while q:
         cur_x, cur_y, cur_d = q.popleft()
-        if x == n-1 and y == n-1:
+        if cur_x == n-1 and cur_y == n-1:
                 return cur_d
         for i in range(8):
             x = cur_x + dx[i]
@@ -26,8 +26,7 @@ def shortest_path_binary_matrix(grid):
                     
                     visited[x][y] = True
                     q.append((x,y, cur_d+1))
-    
-        return -1
+    return -1
             
 
 # testcase1
