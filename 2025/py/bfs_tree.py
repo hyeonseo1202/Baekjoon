@@ -1,7 +1,7 @@
 from collections import deque
 
 class Node:
-    def __init__(self, value = 0, left = Node, right = Node):
+    def __init__(self, value = 0, left = None, right = None):
         self.value = value
         self.left = left
         self.right = right
@@ -31,4 +31,4 @@ def bfs_tree(root):
             q.append(cur_node.right)
     return visited
 
-bfs_tree(root)
+print(bfs_tree(bt.root))
