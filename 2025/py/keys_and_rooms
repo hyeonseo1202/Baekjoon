@@ -1,0 +1,24 @@
+
+
+def keys_and_rooms(room):
+    n = len(room)
+    visited = []
+    i = 0
+    def dfs(i):
+        if i in visited:
+            return
+        visited.append(i)
+        for j in range(len(room[i])):
+            dfs(room[i][j])
+            
+    if len(visited) == n:
+            return True
+    else: return False
+    
+    
+    
+rooms1 = [[1],[2],[3],[]]
+print("rooms1 =", keys_and_rooms(rooms1))
+
+rooms2 = [[1,3],[3,0,1],[2],[0]]
+print("rooms2 =", keys_and_rooms(rooms2))
