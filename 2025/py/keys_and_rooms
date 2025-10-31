@@ -2,7 +2,7 @@
 
 def keys_and_rooms(room):
     n = len(room)
-    visited = set()
+    visited = set() #set은 in연산이 빠르기 때문에!
     
     def dfs(i):
         if i in visited:
