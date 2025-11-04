@@ -11,7 +11,7 @@ def dijkstra(graph, start, final):
             for cost, next_v in graph[cur_v]:
                 next_cost = cur_cost + cost
                 heapq.heappush(pq, (next_cost, next_v))
-    return costs[final]
+    return costs[final-1]
 
 graph = {
     1: [(2, 2), (5, 3)],
