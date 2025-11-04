@@ -14,7 +14,7 @@ def dijkstra(graph, start, final):
     return costs[final]
 
 graph = {
-    1: [(2, 2), (3, 5)],
+    1: [(2, 2), (5, 3)],
     2: [(3, 1), (4, 3)],
     3: [(4, 2)],
     4: []
