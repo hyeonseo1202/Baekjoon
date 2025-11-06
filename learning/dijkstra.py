@@ -1,8 +1,8 @@
 import heapq
 def dijkstra(graph, start, final):
-    costs = {}
-    pq = []
-    heapq.heappush(pq, (0, start))
+    costs = {} # 한 번 값이 들어가면, 바뀌지 않을 cost!!
+    pq = [] # 한번에 옳은 값을 넣기 위한 priorty queue
+    heapq.heappush(pq, (0, start)) 
     
     while pq:
         cur_cost, cur_vertex = heapq.heappop(pq)
