@@ -1,3 +1,4 @@
+#Q. nums = [1,2,3,4]로 만들 수 있는 모든 순열을 반환하시오.
 def permute(nums):
     def backtrack(curr):
         if len(curr) == len(nums):
