@@ -16,5 +16,6 @@ def permute(nums):
     return ans
 
 
+
 nums = [1,2,3,4]
 print(permute(nums))
