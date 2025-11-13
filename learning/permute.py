@@ -2,7 +2,7 @@
 def permute(nums): #permute: 순서를 바꾸다, 뒤섞다. 과학에선 '순열'
     def backtrack(curr):
         if len(curr) == len(nums):
-            ans.append(curr[:])
+            ans.append(curr[:]) #리스트의 복사본(curr[:])으로 넣어야 나중에 값에 영향 안받음
             return
                 
         for num in nums:
