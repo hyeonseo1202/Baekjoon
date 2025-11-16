@@ -1,24 +1,18 @@
-#i면, i 또는 i+1
-
 import sys
 input = sys.stdin.readline
 
 n = int(input())
-triangle = [list(map(int, input().split()))for _ in range(n)]
-memo = [[]for _ in range(n)]
 
-for i in range(n):
-    m = len(triangle[i])
-    for j in range(m):
-        if i == 0: 
-            memo[i][j] = triangle[i][j]
-        elif memo[i][j]:
-            pass
+triangle = [list(map(int, input().split())) for _ in range(n)]
+
+# DP 사용 (triangle 자체를 누적합으로 변경)
+for i in range(1, n):
+    for j in range(i + 1):
+        if j == 0:  # 맨 왼쪽
+            triangle[i][j] += triangle[i-1][0]
+        elif j == i:  # 맨 오른쪽
+            triangle[i][j] += triangle[i-1][j-1]
         else:
-            memo[i][j] = triangle[i][j] + max(memo[i-1][j],memo[i-1][j+1])
-            
+            triangle[i][j] += max(triangle[i-1][j-1], triangle[i-1][j])
 
-
-
-
-    
+print(max(triangle[-1]))
