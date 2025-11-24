@@ -3,7 +3,7 @@ import sys
 from collections import deque
 input = sys.stdin.readline
 
-N,M,V = map(int, input.split())
+N,M,V = map(int, input().split())
 graph = [[]for _ in range(N+1)]
 for _ in range(M):
     a, b = map(int, input().split())
@@ -29,7 +29,10 @@ def bfs(start):
     while queue:
         v = queue.popleft()
         print(v, end = ' ')
-        for next in graph[v]
+        for next in graph[v]:
+            if not visited[next]:
+                visited[next] = True
+                queue.append(next)
 
 visited = [False]*(N+1)
 dfs(V,visited)
