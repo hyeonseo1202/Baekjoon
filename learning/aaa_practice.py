@@ -1,27 +1,38 @@
 #2178 미로탐색
+#행렬형태라면, 풀이는 이렇게!!! 죄표로!!!
 from collections import deque
 import sys
 input = sys.stdin.readline
 
 N,M = map(int, input().split())
-graph = [[]for _ in range(N+1)]
-for i in range(N):
-    for j in range(M):
-        temp = int(input())
-        if temp == 1:
-            graph[i].append(j)
-            graph[j].append(i)
-def bfs(start, result):
-    visited = [False]*N
-    visited[start] = True
-    queue = deque()
-    queue.append((start,0))
+
+maze = [list(map(int, input().strip()))for _ in range(N)]
+
+dist = [[0]*M for _ in range(N)]
+
+#상하좌우
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0, 0]
+
+def bfs(x,y):
+    q = deque()
+    q.append((x,y))
+    dist[x][y] = 1
     
-    while queue:
-        v,n = queue.popleft()
-        for next in graph(v):
-            if not visited[next]:
-                queue.append((next,n+1))
-                visited[next] = True
+    while q:
+        x,y = q.popleft()
+        for k in range(4):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            
+            if x == N-1 and y == M-1:
+                print(dist[x][y])
+                return
+
+            if 0 <= nx < N and 0 <= ny < M:
+                if maze[nx][ny] == 1 and dist[nx][ny] == 0:
+                    dist[nx][ny] = dist[x][y]+1
+                    q.append((nx,ny))
+                    
     
-    print()
+    bfs(0,0)
