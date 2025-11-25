@@ -25,8 +25,8 @@ def bfs(x,y):
             nx = x + dx[k]
             ny = y + dy[k]
             
-            if x == N-1 and y == M-1:
-                print(dist[x][y])
+            if nx == N-1 and ny == M-1:
+                print(dist[x][y]+1)
                 return
 
             if 0 <= nx < N and 0 <= ny < M:
@@ -35,4 +35,4 @@ def bfs(x,y):
                     q.append((nx,ny))
                     
     
-    bfs(0,0)
+bfs(0,0)
