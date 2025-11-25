@@ -1,33 +1,27 @@
-#2606 바이러스
+#2178 미로탐색
 from collections import deque
 import sys
 input = sys.stdin.readline
 
-computer = int(input().strip())
-edge = int(input().strip())
-graph = [[]for _ in range(computer + 1)]
-for _ in range(edge):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
-
-def bfs(start):
-    visited = [False]*(computer + 1)
-    queue = deque([start])
+N,M = map(int, input().split())
+graph = [[]for _ in range(N+1)]
+for i in range(N):
+    for j in range(M):
+        temp = int(input())
+        if temp == 1:
+            graph[i].append(j)
+            graph[j].append(i)
+def bfs(start, result):
+    visited = [False]*N
     visited[start] = True
+    queue = deque()
+    queue.append((start,0))
     
     while queue:
-        v = queue.popleft()
-        for next in graph[v]:
+        v,n = queue.popleft()
+        for next in graph(v):
             if not visited[next]:
-                queue.append(next)
+                queue.append((next,n+1))
                 visited[next] = True
     
-    result = 0      
-    for i in range(2,computer+1):
-        if visited[i]:
-            result +=1
-    
-    print(result)
-
-bfs(1)
+    print()
