@@ -7,6 +7,7 @@ t_case = int(input())
 dx = [0,0,-1,1]
 dy = [-1,1,0,0]
 
+
 def bfs(x, y):
     queue = deque()
     queue.append((x, y))
