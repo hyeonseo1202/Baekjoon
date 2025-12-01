@@ -1,20 +1,36 @@
-from collections import deque
+#1991 트리 순회
+import sys
+input = sys.stdin.readline
+N = int(input())
 
-N, K = map(int, input().split())
+tree = {}
+for _ in range(N):
+    root, left, right = input().split()
+    tree[root] = (left, right)
 
-MAX = 100000
-visited = [0] * (MAX + 1)
+def preorder(node):
+    if node == '.':
+        return
+    print(node, end = '')
+    preorder(tree[node][0])
+    preorder(tree[node][1])
 
-queue = deque([N])
+def inorder(node):
+    if node == '.':
+        return
+    inorder(tree[node][0])
+    print(node, end = '')
+    inorder(tree[node][1])
+    
+def postorder(node):
+    if node == '.':
+        return
+    postorder(tree[node][0])
+    postorder(tree[node][1])
+    print(node, end = '')
 
-while queue:
-    x = queue.popleft()
-
-    if x == K:
-        print(visited[x])
-        break
-
-    for nx in (x - 1, x + 1, x * 2):
-        if 0 <= nx <= MAX and visited[nx] == 0:
-            visited[nx] = visited[x] + 1
-            queue.append(nx)
+preorder('A')
+print()
+inorder('A')
+print()
+postorder('A')
