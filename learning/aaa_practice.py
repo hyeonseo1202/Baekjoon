@@ -22,8 +22,8 @@ for i in range(N):
 #거리 계산해주는 bfs, 못가면 -1 반환
 def bfs(fx,fy):
     q = deque()
-    q.append(shark_x,shark_y, 0)
-    visited = [[0 * N]for _ in range(N)]
+    q.append((shark_x,shark_y, 0))
+    visited = [[0]* N for _ in range(N)]
     
     while q:
         x, y, dist = q.popleft()
@@ -33,8 +33,9 @@ def bfs(fx,fy):
             nx = x + dx[i]
             ny = y + dy[i]
             if 0<=nx<N  and 0<=ny<N:
-                if ocean[nx][ny] <= babyshark:
-                    q.append(nx,ny, dist+1)
+                if ocean[nx][ny] <= babyshark and visited[nx][ny] == 0:
+                    visited[nx][ny] = 1
+                    q.append((nx,ny, dist+1))
     return -1
     
     
@@ -50,16 +51,26 @@ for i in range(N):
 
 #찐 상어탐험 시작
 independent = 0
+eat = 0
 while pq:
     dist,x,y = heapq.heappop(pq)
+    pq = []
     independent+=dist
+    eat+=1
+    ocean[x][y] = 0
     shark_x = x
     shark_y = y
     
+    if eat == babyshark:
+        babyshark+=1
+        eat = 0
+    
     for i in range(N):
         for j in range(N):
-            if ocean[i][j] <= babyshark:
-                distance = abs(shark_x - i) + abs(shark_y - j)
-                heapq.heappush(pq, (distance, i, j))
+            if ocean[i][j] < babyshark:
+                distance = bfs(i,j)
+                if distance != -1:
+                    heapq.heappush(pq, (distance, i, j))
+
                 
 print(independent)
