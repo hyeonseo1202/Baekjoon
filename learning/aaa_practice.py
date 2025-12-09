@@ -1,38 +1,65 @@
-#2206 
-from collections import deque
+#16236 아기상어
 import sys
+import heapq
+from collections import deque
 input = sys.stdin.readline
 
-N,M = map(int, input().split())
-graph = [list(map(int, input().strip()))for _ in range(N)]
-visited = [[[0]*2 for _ in range(M)]for _ in range(N)]
+N = int(input().strip())
+ocean = [list(map(int, input().split())) for _ in range(N)]
+babyshark = 2
 
-dx = [1, -1, 0, 0]
-dy = [0, 0, 1, -1]
 
-def bfs(x,y,flag):
+dx = [0,0,-1,1]
+dy = [-1,1,0,0]
+
+# 첫 아기상어 위치 저장
+for i in range(N):
+    for j in range(N):
+        if ocean[i][j] == 9:
+            shark_x = i
+            shark_y = j
+            
+#거리 계산해주는 bfs, 못가면 -1 반환
+def bfs(fx,fy):
     q = deque()
-    q.append((x,y,flag))
-    visited[x][y][flag] = 1
+    q.append(shark_x,shark_y, 0)
+    visited = [[0 * N]for _ in range(N)]
     
-    while  q:
-        x,y,flag = q.popleft()
-        
-        if x == N-1 and y == M-1:
-            return visited[x][y][flag]
-        
+    while q:
+        x, y, dist = q.popleft()
+        if x == fx and y == fy:
+            return dist
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
-            if 0 <= nx <N and 0<=ny<M:
-                if graph[nx][ny] == 0:
-                    if visited[nx][ny][flag] == 0:
-                        visited[nx][ny][flag] = visited[x][y][flag] + 1
-                        q.append((nx,ny,flag))
-                elif graph[nx][ny] == 1 and flag == 0 and visited[nx][ny][flag] == 0:
-                        visited[nx][ny][1] = visited[x][y][0] + 1
-                        q.append((nx,ny,1))
-    
+            if 0<=nx<N  and 0<=ny<N:
+                if ocean[nx][ny] <= babyshark:
+                    q.append(nx,ny, dist+1)
     return -1
+    
+    
 
-print(bfs(0,0,0))
+#상어탐험 시작을 위한 첫 pq에 값 넣기
+pq = []
+for i in range(N):
+        for j in range(N):
+            if 0 < ocean[i][j] <= babyshark:
+                distance = bfs(i,j)
+                if distance != -1:
+                    heapq.heappush(pq, (distance, i, j))
+
+#찐 상어탐험 시작
+independent = 0
+while pq:
+    dist,x,y = heapq.heappop(pq)
+    independent+=dist
+    shark_x = x
+    shark_y = y
+    
+    for i in range(N):
+        for j in range(N):
+            if ocean[i][j] <= babyshark:
+                distance = abs(shark_x - i) + abs(shark_y - j)
+                heapq.heappush(pq, (distance, i, j))
+                
+print(independent)
