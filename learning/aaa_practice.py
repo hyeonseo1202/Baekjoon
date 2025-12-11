@@ -15,8 +15,8 @@ while True:
     abq = deque()
     def bfs(x,y):
         q = deque()
-        q.append(x,y)
-        abq.append(x,y)
+        q.append((x,y))
+        abq.append((x,y))
         visited[x][y] = True
         total_num = 1
         total_sum = graph[x][y]
@@ -28,8 +28,8 @@ while True:
                 if 0<=nx<N and 0<=ny<N:
                     if visited[nx][ny]==False and  L<= abs(graph[nx][ny] - graph[x][y]) <= R:
                         visited[nx][ny] = True
-                        q.append(nx,ny)
-                        abq.append(nx,ny)
+                        q.append((nx,ny))
+                        abq.append((nx,ny))
                         total_num+=1
                         total_sum+=graph[nx][ny]
         return total_num, total_sum
@@ -45,9 +45,9 @@ while True:
                     flag = 1
                     while abq:
                         i,j = abq.popleft()
-                        graph[i][j] = b/a
+                        graph[i][j] = b//a
     if flag == 1:
         result +=1
     else:
         print(result)
-        return
+        break
