@@ -5,6 +5,7 @@
 # - 정점을 두 그룹(집합)으로 나눌 수 있고, 
 # - 모든 간선은 항상 서로 다른 그룹끼리만 연결되는 그래프
 # 1707 이분그래프 DFS
+
 import sys
 sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
@@ -33,14 +34,13 @@ for _ in range(K):
                 return False
         return True
 
-    is_bipartite = True
 
     for v in range(1, V + 1):
         if color[v] == 0:
-            if not dfs(v, 1):
-                is_bipartite = False
+            flag = dfs(v,1)
+            if flag == False:
                 break
 
-    answers.append("YES" if is_bipartite else "NO")
+    answers.append("YES" if flag else "NO")
 
 print("\n".join(answers))
