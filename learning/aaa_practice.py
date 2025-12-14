@@ -16,7 +16,7 @@ for i in range(1, N+1):
     degree[a] += 1
     degree[b] += 1
 
-#cycle인 원소 판별
+#cycle인 원소 판별 - Leaf Pruning(위상 정리)
 cycle = [True]*(N+1)
 q = deque()
 
@@ -34,7 +34,7 @@ while q:
             q.append(nx)
          
 
-#cycle과의 거리 찾기
+#cycle과의 거리 찾기 - BFS
 dist = [-1]*(N+1)
 bq = deque()
 
