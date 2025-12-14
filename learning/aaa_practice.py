@@ -1,43 +1,53 @@
-#9466 팀 프로젝트
-#dfs 사용
+# 16947 서울 지하철 2호선
 
 import sys
 from collections import deque
 sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
-T = int(input())
-result = deque()
-for _ in range(T):
-    n = int(input())
-    graph = [0] + list(map(int, input().split()))
-    
-    visited = [False] * (n+1)
-    finished = [False] * (n+1)
-    cycle_cnt = 0
-    
-    def dfs(x):
-        global cycle_cnt
-        visited[x] = True
-        nxt = graph[x]
-        
-        if not visited[nxt]:
-            dfs(nxt)
-        else:
-            if not finished[nxt]:
-                cycle_cnt += 1
-                cur = nxt
-                while cur != x:
-                    cycle_cnt +=1
-                    cur = graph[cur]
-        finished[x] = True
-        
-    for i in range(1, n+1):
-        if not visited[i]:
-            dfs(i)
-    result.append(n - cycle_cnt)
-        
-while result:
-    n = result.popleft()
-    print(n)
-    
+N = int(input())
+graph = [[]for _ in range(N+1)]
+degree = [0]*(N+1)
+
+for i in range(1, N+1):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+    degree[a] += 1
+    degree[b] += 1
+
+#cycle인 원소 판별
+cycle = [True]*(N+1)
+q = deque()
+
+for i in range(1, N+1):
+    if degree[i] == 1:
+        q.append(i)
+        cycle[i] = False
+
+while q:
+    x = q.popleft()
+    for nx in graph[x]:
+        degree[nx] -= 1
+        if degree[nx] == 1:
+            cycle[nx] = False
+            q.append(nx)
+         
+
+#cycle과의 거리 찾기
+dist = [-1]*(N+1)
+bq = deque()
+
+for i in range(1, N+1):
+    if cycle[i]:
+        dist[i] = 0
+        bq.append(i)
+
+while bq:
+    cur = bq.popleft()
+    for nx in graph[cur]:
+        if dist[nx] == -1:
+            dist[nx] = dist[cur] +1
+            bq.append(nx)
+
+print(*dist[1:])
