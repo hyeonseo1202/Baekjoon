@@ -1,39 +1,43 @@
-#18352 특정 거리의 도시 찾기
-from collections import deque
+#9466 팀 프로젝트
+#dfs 사용
+
 import sys
+from collections import deque
+sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
-N, M, K, X = map(int, input().split())
-graph = [[]for _ in range(N+1)]
-for _ in range(M):
-    a,b = map(int, input().split())
-    graph[a].append(b)
-
-visited = [False]*(N+1)
+T = int(input())
 result = deque()
-
-def bfs():
-    q = deque()
-    q.append((X, 0))
-    visited[X] = True
-    while q:          
+for _ in range(T):
+    n = int(input())
+    graph = [0] + list(map(int, input().split()))
+    
+    visited = [False] * (n+1)
+    finished = [False] * (n+1)
+    cycle_cnt = 0
+    
+    def dfs(x):
+        global cycle_cnt
+        visited[x] = True
+        nxt = graph[x]
         
-        cur, dist = q.popleft()
+        if not visited[nxt]:
+            dfs(nxt)
+        else:
+            if not finished[nxt]:
+                cycle_cnt += 1
+                cur = nxt
+                while cur != x:
+                    cycle_cnt +=1
+                    cur = graph[cur]
+        finished[x] = True
         
-        if dist == K:
-            result.append(cur)
-        for key in graph[cur]:
-            if visited[key] == False:
-                visited[key] = True
-                q.append((key, dist+1))
-
-bfs()
-
-if result:
-    result = sorted(result)
-    for city in result:
-        print(city)
-else:
-    print(-1)
-
+    for i in range(1, n+1):
+        if not visited[i]:
+            dfs(i)
+    result.append(n - cycle_cnt)
+        
+while result:
+    n = result.popleft()
+    print(n)
     
