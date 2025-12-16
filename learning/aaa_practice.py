@@ -1,14 +1,19 @@
-#12865 평범한 배낭
-#bottom-up방식 : 반복문 +dp
+# 9251 LCS 
 import sys
-input =  sys.stdin.readline
-N, K = map(int, input().split())
-items = [tuple(map(int, input().split())) for _ in range(N)]
-    
-dp = [0] * (K+1)
+input = sys.stdin.readline
 
-for w, v in items:
-    for cap in range(K, w - 1, -1): # 뒤에서 앞으로!
-        dp[cap] = max(dp[cap], dp[cap - w] + v)
+A = input().strip()
+B = input().strip()
 
-print(dp[K])
+n, m = len(A), len(B)
+
+dp = [[0] * (m + 1) for _ in range(n + 1)]
+
+for i in range(1, n + 1):
+    for j in range(1, m + 1):
+        if A[i - 1] == B[j - 1]:
+            dp[i][j] = dp[i - 1][j - 1] + 1
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+print(dp[n][m])
