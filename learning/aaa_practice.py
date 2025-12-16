@@ -1,29 +1,14 @@
 #12865 평범한 배낭
-
+#bottom-up방식 : 반복문 +dp
 import sys
 input =  sys.stdin.readline
 N, K = map(int, input().split())
 items = [tuple(map(int, input().split())) for _ in range(N)]
     
-result = 0
+dp = [0] * (K+1)
 
-#모든 경우 다 탐색하는 것!!! - backtracking
-def dfs(i, cur_w, cur_v):
-    global result
-    
-    if cur_w > K:
-        return
-    
-    if i == N:
-        result = max(result, cur_v)
-        return
-    
-    w, v = items[i]
-    # i번째 아이템 담는 경우
-    dfs(i+1, cur_w+w, cur_v+v)
-    
-    #i번째 아이템 담지 않는 경우
-    dfs(i+1, cur_w, cur_v)
+for w, v in items:
+    for cap in range(K, w - 1, -1): # 뒤에서 앞으로!
+        dp[cap] = max(dp[cap], dp[cap - w] + v)
 
-dfs(0,0,0)
-print(result)
+print(dp[K])
