@@ -1,53 +1,29 @@
-# 16947 서울 지하철 2호선
+#12865 평범한 배낭
 
 import sys
-from collections import deque
-sys.setrecursionlimit(10**7)
-input = sys.stdin.readline
+input =  sys.stdin.readline
+N, K = map(int, input().split())
+items = [tuple(map(int, input().split())) for _ in range(N)]
+    
+result = 0
 
-N = int(input())
-graph = [[]for _ in range(N+1)]
-degree = [0]*(N+1)
+#모든 경우 다 탐색하는 것!!! - backtracking
+def dfs(i, cur_w, cur_v):
+    global result
+    
+    if cur_w > K:
+        return
+    
+    if i == N:
+        result = max(result, cur_v)
+        return
+    
+    w, v = items[i]
+    # i번째 아이템 담는 경우
+    dfs(i+1, cur_w+w, cur_v+v)
+    
+    #i번째 아이템 담지 않는 경우
+    dfs(i+1, cur_w, cur_v)
 
-for i in range(1, N+1):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
-    degree[a] += 1
-    degree[b] += 1
-
-#cycle인 원소 판별 - Leaf Pruning(위상 정리)
-cycle = [True]*(N+1)
-q = deque()
-
-for i in range(1, N+1):
-    if degree[i] == 1:
-        q.append(i)
-        cycle[i] = False
-
-while q:
-    x = q.popleft()
-    for nx in graph[x]:
-        degree[nx] -= 1
-        if degree[nx] == 1:
-            cycle[nx] = False
-            q.append(nx)
-         
-
-#cycle과의 거리 찾기 - BFS
-dist = [-1]*(N+1)
-bq = deque()
-
-for i in range(1, N+1):
-    if cycle[i]:
-        dist[i] = 0
-        bq.append(i)
-
-while bq:
-    cur = bq.popleft()
-    for nx in graph[cur]:
-        if dist[nx] == -1:
-            dist[nx] = dist[cur] +1
-            bq.append(nx)
-
-print(*dist[1:])
+dfs(0,0,0)
+print(result)
