@@ -1,19 +1,29 @@
-# 9251 LCS 
+#1463 1로 만들기
+
 import sys
 input = sys.stdin.readline
 
-A = input().strip()
-B = input().strip()
+N = int(input())
 
-n, m = len(A), len(B)
 
-dp = [[0] * (m + 1) for _ in range(n + 1)]
 
-for i in range(1, n + 1):
-    for j in range(1, m + 1):
-        if A[i - 1] == B[j - 1]:
-            dp[i][j] = dp[i - 1][j - 1] + 1
-        else:
-            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+def top_down(n):
+    
+    if n == 1:
+        return 0
+    elif n == 2:
+        return 1
+    elif n == 3:
+        return 1
+    
+    if n%3 == 0 and n%2 == 0:
+        return min(top_down(n//3), top_down(n//2), top_down(n-1))+1
+    elif n%3 == 0:
+        return min(top_down(n//3), top_down(n-1))+1
+    elif n%2 == 0:
+        return min(top_down(n//2), top_down(n-1))+1
+    else:
+        return top_down(n-1)+1
 
-print(dp[n][m])
+ans = top_down(N)
+print(ans)
