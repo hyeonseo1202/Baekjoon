@@ -1,26 +1,16 @@
-#1463 1로 만들기
+#2993 동전 1
 
 import sys
-sys.setrecursionlimit(10**7)
 input = sys.stdin.readline
 
-N = int(input())
+n, k = map(int, input().split())
+coins = [int(input())for _ in range(n)]
 
-dp = [-1]*(N+1)
+dp = [0] * (k+1)
+dp[0] = 1
 
-def bottom_up(N):
-    if N == 1:
-        return 0
-    dp[1] = 0
-    for i in range(2, N+1):
-        res = dp[i-1]+1
-        if i %2 == 0:
-            res = min(res, dp[i//2]+1)
-        if i%3 == 0:
-            res = min(res, dp[i//3]+1)
-        dp[i] = res
-    
-    return dp[N]
-    
-
-print(bottom_up(N))
+for coin in coins:
+    for money in range(coin, k+1):
+        dp[money]+= dp[money - coin]
+        
+print(dp[k])
