@@ -1,64 +1,20 @@
-#17412 연구소3
-from collections import deque
-from itertools import combinations
-import sys
-imput = sys.stdin.readline
 
-N,M = map(int, input().split())
-lab = [list(map(int, input().split()))for _ in range(N)]
-
-dx = [0,0,-1,1]
-dy = [-1,1,0,0]
-
-#기본 바이러스들 집합
-viruses = []
-for y in range(N):
-        for x in range(N):
-            if lab[y][x] == 2:
-                viruses.append((x,y))
- 
-#활성 바이러스들 받아서 한 번에 시작            
-def spread(board, active_viruses):
-    fin_depth = 0
-    q = deque()
-    for x, y in active_viruses:
-        q.append((x, y, 0))
+def solution(n, cars, links):
+    #먼저 익숙한 그래프 형태로 만들기
+    graph = [[]for _ in range(n)]
+    for x,y in links:
+        graph[x-1].append(y-1)
+        graph[y-1].append(x-1)
         
-    while q:
-        x, y, depth = q.popleft()
-        for k in range(4):
-            nx,ny = x + dx[k], y+dy[k]
-            if 0 <= nx < N and 0 <= ny < N:
-                # 빈칸(0)일 때만 시간이 의미 있음
-                if board[ny][nx] == 0:
-                    board[ny][nx] = -1
-                    fin_depth = max(fin_depth, depth + 1)
-                    q.append((nx, ny, depth + 1))
-
-                # 비활성 바이러스(2)는 "통과"만 (fin_depth 갱신 X)
-                elif board[ny][nx] == 2:
-                    board[ny][nx] = -1
-                    q.append((nx, ny, depth + 1))
-    for y in range(N):
-        for x in range(N):
-            if board[y][x] == 0:
-                return float('inf')  # 실패
-    return fin_depth
-
-
-
-ans = float('inf')
-
-for walls in combinations(viruses, M):
-    board = [row[:] for row in lab]
-    active_viruses = []
-    for x, y in walls:
-        board[y][x] = -1
-        active_viruses.append((x,y))
+    #하지만, 이 문제에선 방향이 존재해야함 -> 루트가 존재해야함 -> 정해진 건 x -> 내가 임의로 지정하면 됨
+    # 루트 0 에서 DFS로 parent와 order 만들기
+    root = 0
+    stack = [root]
     
-    ans = min(ans, spread(board, active_viruses))
     
-if ans == float('inf'):
-    print(-1)
-else:
-    print(ans)
+    
+        
+        
+    
+
+    return
